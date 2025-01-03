@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "Twitter Auto Refresher",
+    "version": "1.0",
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "./images/icon.png",
+            "48": "./images/icon.png",
+            "128": "./images/icon.png"
+        }
+    },
+    "permissions": [
+        "tabs", 
+        "scripting", 
+        "alarms"
+    ],
+    "host_permissions": [
+        "*://*.x.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://*.x.com/home"],
+            "js": ["autorefresh.js"]
+        }
+    ]
+}
