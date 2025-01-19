@@ -7,14 +7,19 @@
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-    <h3>自動更新設定</h3>
+    <h3>TL自動更新設定</h3>
     <label>
-        更新間隔（秒）:
-        <input id="interval" type="number" min="10" step="10" value="60">
+        <input id="interval" type="number" min="10" step="10" value="60"> sec.
     </label>
     <br>
-    <button id="toggle-button">開始</button>
-    <p id="status">ステータス: 停止中</p>
+    <div class="button-container">
+        <button id="start-refresh-button">開始</button>
+        <p id="status">ステータス: 停止中</p>
+    </div>
+    <div class="button-container">
+        <button id="start-delete-promotion-button">広告を削除</button>
+        <p id="delete-promotion-status">ステータス: 停止中</p>
+    </div>
     <script src="popup.js"></script>
 </body>
 </html>

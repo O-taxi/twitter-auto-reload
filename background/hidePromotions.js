@@ -54,7 +54,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
 // メッセージを受信して処理を実行
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === "start") {
+    if (message.action === "start_refresh" || message.action === "delete_promotion" ) {
         baseInterval = message.interval;
         startHidePromotions(baseInterval);
     } else if (message.action === "stop") {
