@@ -36,12 +36,14 @@ function stopAlarm() {
 // アラームがトリガーされたときの動作
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "autoRefresh") {
-        chrome.tabs.query({ url: "*://*.x.com/*" }, (tabs) => {
+        chrome.tabs.query({ url: "*://*.x.com/home" }, (tabs) => {
             if (tabs.length > 0) {
                 chrome.scripting.executeScript({
                     target: { tabId: tabs[0].id },
                     func: clickTimelineUpdateScript
                 });
+            } else {
+                console.log("homeタブを開いていません");
             }
         });
         startAlarm(baseInterval); // 次のアラームを設定
@@ -50,7 +52,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
 // メッセージを受信して処理を実行
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === "start") {
+    if (message.action === "start_refresh") {
         baseInterval = message.interval;
         startAlarm(baseInterval);
     } else if (message.action === "stop") {
