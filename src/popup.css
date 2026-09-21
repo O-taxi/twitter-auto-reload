@@ -5,18 +5,29 @@ header { padding: 20px 20px 17px; background: #173847; color: white; }
 .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .18em; color: #a2d9e8; }
 h1 { margin: 5px 0 0; font-size: 20px; }
 main { padding: 15px; }
-.card { padding: 15px; margin-bottom: 12px; background: white; border: 1px solid #dde6ea; border-radius: 11px; box-shadow: 0 2px 7px #1738470b; }
-.heading { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.settings-panel { background: white; border: 1px solid #dde6ea; border-radius: 11px; box-shadow: 0 2px 7px #1738470b; overflow: hidden; }
+.setting { padding: 14px 15px; }
+.setting + .setting { border-top: 1px solid #e6edf0; }
+.heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+.promotions-setting .heading { margin-bottom: 0; }
+.controls { display: flex; align-items: center; gap: 8px; }
 h2 { margin: 0; font-size: 15px; }
 .badge { padding: 3px 8px; border-radius: 99px; background: #eef1f3; color: #65757e; font-size: 11px; font-weight: 700; }
 .badge.active { background: #ddf5eb; color: #16744f; }
-label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; }
+.interval-row { display: flex; align-items: center; justify-content: flex-start; gap: 10px; }
+.interval-row label { font-size: 12px; font-weight: 700; }
+.interval-field { display: flex; align-items: center; gap: 6px; }
 .hint { font-weight: 400; color: #6c7d86; }
-input { width: 100%; height: 36px; padding: 6px 9px; border: 1px solid #bfced5; border-radius: 6px; font: inherit; }
+input { width: 68px; height: 30px; padding: 4px 7px; border: 1px solid #bfced5; border-radius: 6px; font: inherit; text-align: right; }
 input:focus-visible, button:focus-visible { outline: 2px solid #3a8db2; outline-offset: 2px; }
 input:disabled { background: #f2f5f6; color: #6c7d86; }
 p { margin: 0 0 12px; color: #60727b; font-size: 12px; line-height: 1.5; }
-button { width: 100%; margin-top: 12px; padding: 9px; border: 0; border-radius: 7px; background: #287da5; color: white; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
-button:hover { background: #1d6689; }
+button { cursor: pointer; }
+.icon-button { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 8px; background: #287da5; color: white; }
+.icon-button:hover { background: #1d6689; }
+.icon-button svg { width: 20px; height: 20px; fill: currentColor; }
+.icon-button .pause-icon, .icon-button[aria-pressed="true"] .play-icon { display: none; }
+.icon-button[aria-pressed="true"] .pause-icon { display: block; }
 button:disabled { opacity: .55; cursor: default; }
 #error { margin: 0; color: #b23c3c; }
+#error:empty { display: none; }

@@ -10,7 +10,11 @@ function render() {
         ['promotionsEnabled', promotionsButton, document.getElementById('promotions-status')],
     ]) {
         const enabled = Boolean(state[key]);
-        button.textContent = enabled ? '停止する' : '開始する';
+        const actionName = key === 'refreshEnabled' ? '自動更新' : '広告の非表示';
+        const buttonLabel = `${actionName}を${enabled ? '停止' : '開始'}する`;
+        button.setAttribute('aria-label', buttonLabel);
+        button.title = buttonLabel;
+        button.setAttribute('aria-pressed', String(enabled));
         status.textContent = enabled ? '実行中' : '停止中';
         status.classList.toggle('active', enabled);
     }

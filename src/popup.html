@@ -12,17 +12,39 @@
         <h1>タイムライン設定</h1>
     </header>
     <main>
-        <section class="card">
-            <div class="heading"><h2>自動更新</h2><span id="refresh-status" class="badge">停止中</span></div>
-            <label for="interval">更新間隔 <span class="hint">秒</span></label>
-            <input id="interval" type="number" min="30" step="1" value="60">
-            <button id="refresh-button" type="button">開始する</button>
-        </section>
-        <section class="card">
-            <div class="heading"><h2>広告の非表示</h2><span id="promotions-status" class="badge">停止中</span></div>
-            <p>表示中の X タブで広告を定期的に隠します。</p>
-            <button id="promotions-button" type="button">開始する</button>
-        </section>
+        <div class="settings-panel">
+            <section class="setting">
+                <div class="heading">
+                    <h2>自動更新</h2>
+                    <div class="controls">
+                        <span id="refresh-status" class="badge">停止中</span>
+                        <button id="refresh-button" class="icon-button" type="button" aria-label="自動更新を開始する" title="自動更新を開始する" aria-pressed="false">
+                            <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z"/></svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="interval-row">
+                    <label for="interval">更新間隔</label>
+                    <div class="interval-field">
+                        <input id="interval" type="number" min="30" step="1" value="60">
+                        <span class="hint">秒</span>
+                    </div>
+                </div>
+            </section>
+            <section class="setting promotions-setting">
+                <div class="heading">
+                    <h2>広告の定期削除</h2>
+                    <div class="controls">
+                        <span id="promotions-status" class="badge">停止中</span>
+                        <button id="promotions-button" class="icon-button" type="button" aria-label="広告の定期削除を開始する" title="広告の定期削除を開始する" aria-pressed="false">
+                            <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z"/></svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
         <p id="error" role="alert"></p>
     </main>
     <script src="popup.js"></script>
