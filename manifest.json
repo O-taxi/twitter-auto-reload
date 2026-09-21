@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Twitter Auto Refresher",
-    "version": "1.2",
+    "version": "1.3.0",
     "icons": {
         "16": "./images/icon.png",
         "48": "./images/icon.png",
@@ -26,5 +26,19 @@
     ],
     "background": {
         "service_worker": "src/background.js"
+    },
+    "commands": {
+        "toggle-refresh": {
+            "suggested_key": { "default": "Alt+Shift+R" },
+            "description": "自動更新の開始と停止を切り替える"
+        },
+        "toggle-promotions": {
+            "suggested_key": { "default": "Alt+Shift+P" },
+            "description": "広告の定期削除の開始と停止を切り替える"
+        },
+        "toggle-both": {
+            "suggested_key": { "default": "Alt+Shift+B" },
+            "description": "自動更新と広告の定期削除を同時に開始または停止する"
+        }
     }
 }

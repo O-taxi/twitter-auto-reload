@@ -52,3 +52,12 @@ promotionsButton.addEventListener('click', () => {
 request({ action: 'getState' }).then(() => {
     intervalInput.value = state.intervalSeconds;
 }).catch(error => { errorElement.textContent = error.message; });
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== 'local') return;
+    for (const key of ['refreshEnabled', 'promotionsEnabled', 'intervalSeconds']) {
+        if (changes[key]) state[key] = changes[key].newValue;
+    }
+    intervalInput.value = state.intervalSeconds;
+    render();
+});

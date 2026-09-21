@@ -86,29 +86,60 @@ chrome.alarms.onAlarm.addListener(async alarm => {
     }
 });
 
+async function setRefresh(enabled, intervalSeconds) {
+    if (enabled) {
+        const seconds = Number(intervalSeconds);
+        if (!Number.isFinite(seconds) || seconds < 30) throw new Error('更新間隔は30秒以上にしてください');
+        await chrome.storage.local.set({ refreshEnabled: true, intervalSeconds: seconds });
+        await scheduleRefresh(seconds);
+    } else {
+        await chrome.storage.local.set({ refreshEnabled: false });
+        await chrome.alarms.clear(REFRESH_ALARM);
+    }
+}
+
+async function setPromotions(enabled) {
+    await chrome.storage.local.set({ promotionsEnabled: Boolean(enabled) });
+    if (enabled) {
+        await chrome.alarms.create(PROMOTION_ALARM, { periodInMinutes: PROMOTION_INTERVAL_MINUTES });
+        await hidePromotions();
+    } else {
+        await chrome.alarms.clear(PROMOTION_ALARM);
+    }
+}
+
+chrome.commands.onCommand.addListener(async command => {
+    try {
+        if (command === 'toggle-refresh') {
+            const { refreshEnabled = false, intervalSeconds = DEFAULT_INTERVAL } =
+                await chrome.storage.local.get(['refreshEnabled', 'intervalSeconds']);
+            await setRefresh(!refreshEnabled, intervalSeconds);
+        } else if (command === 'toggle-promotions') {
+            const { promotionsEnabled = false } = await chrome.storage.local.get('promotionsEnabled');
+            await setPromotions(!promotionsEnabled);
+        } else if (command === 'toggle-both') {
+            const { refreshEnabled = false, promotionsEnabled = false, intervalSeconds = DEFAULT_INTERVAL } =
+                await chrome.storage.local.get(['refreshEnabled', 'promotionsEnabled', 'intervalSeconds']);
+            const enabled = !(refreshEnabled && promotionsEnabled);
+            await Promise.all([
+                setRefresh(enabled, intervalSeconds),
+                setPromotions(enabled),
+            ]);
+        }
+    } catch (error) {
+        console.error('ショートカット操作に失敗しました', error);
+    }
+});
+
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     (async () => {
         if (message.action === 'getState') {
             return await chrome.storage.local.get(['refreshEnabled', 'promotionsEnabled', 'intervalSeconds']);
         }
         if (message.action === 'setRefresh') {
-            if (message.enabled) {
-                const seconds = Number(message.intervalSeconds);
-                if (!Number.isFinite(seconds) || seconds < 30) throw new Error('更新間隔は30秒以上にしてください');
-                await chrome.storage.local.set({ refreshEnabled: true, intervalSeconds: seconds });
-                await scheduleRefresh(seconds);
-            } else {
-                await chrome.storage.local.set({ refreshEnabled: false });
-                await chrome.alarms.clear(REFRESH_ALARM);
-            }
+            await setRefresh(message.enabled, message.intervalSeconds);
         } else if (message.action === 'setPromotions') {
-            await chrome.storage.local.set({ promotionsEnabled: Boolean(message.enabled) });
-            if (message.enabled) {
-                await chrome.alarms.create(PROMOTION_ALARM, { periodInMinutes: PROMOTION_INTERVAL_MINUTES });
-                await hidePromotions();
-            } else {
-                await chrome.alarms.clear(PROMOTION_ALARM);
-            }
+            await setPromotions(message.enabled);
         } else {
             throw new Error('不明な操作です');
         }
