@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Auto Refresher</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <header>
+        <span class="eyebrow">X / TWITTER</span>
+        <h1>タイムライン設定</h1>
+    </header>
+    <main>
+        <section class="card">
+            <div class="heading"><h2>自動更新</h2><span id="refresh-status" class="badge">停止中</span></div>
+            <label for="interval">更新間隔 <span class="hint">秒</span></label>
+            <input id="interval" type="number" min="30" step="1" value="60">
+            <button id="refresh-button" type="button">開始する</button>
+        </section>
+        <section class="card">
+            <div class="heading"><h2>広告の非表示</h2><span id="promotions-status" class="badge">停止中</span></div>
+            <p>表示中の X タブで広告を定期的に隠します。</p>
+            <button id="promotions-button" type="button">開始する</button>
+        </section>
+        <p id="error" role="alert"></p>
+    </main>
+    <script src="popup.js"></script>
+</body>
+</html>
